@@ -98,6 +98,10 @@ async function create_new_subtask(base_task_id) {
 
     if (new_task.ok) {
         get_user_tasks();
+    } else {
+        if (new_task.status == 403) {
+            alert('Вы исчерпали лимит подзадач для своего уровня доступа!');
+        }
     }
 }
 
