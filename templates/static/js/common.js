@@ -155,3 +155,20 @@ async function register() {
         alert('Успешно создан пользователь!');
     }
 }
+
+async function export_data() {
+    const response = await fetch("http://127.0.0.1:8000/api/v1.0/export_user_data", {method: "POST", mode: "cors", headers: {"Content-Type": 'application/json', 'Accept': 'application/json', 'Origin': 'http://127.0.0.1', 'Authorization': 'Bearer ' + localStorage.getItem('jwt_token')}});    
+    const unpacked = await response.json()
+    var response_json_blob = new Blob([JSON.stringify(unpacked['json'])])
+    var response_txt_blob = new Blob([JSON.stringify(unpacked['txt'])])
+
+    const json_link = document.createElement('a')
+    json_link.href = URL.createObjectURL(response_json_blob)
+    json_link.download = 'exported_data.json'
+    json_link.click()
+
+    const txt_link = document.createElement('a')
+    txt_link.href = URL.createObjectURL(response_txt_blob)
+    txt_link.download = 'exported_data.txt'
+    txt_link.click()
+}
